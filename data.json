@@ -1,0 +1,31 @@
+{
+  "gift_cards": {
+    "Amazon": ["$50 for $25", "$100 for $50"],
+    "Apple": ["$50 for $30", "$100 for $60"],
+    "Steam": ["$20 for $10"],
+    "Visa": ["$100 for $80"]
+  },
+  "streaming_services": {
+    "Netflix": ["1 Month - $5", "3 Months - $12"],
+    "Prime": ["1 Month - $4", "1 Year - $30"],
+    "Prime one": ["1 Month - $4", "1 Year - $30"]
+  },
+  "deposit_methods": {
+    "Bitcoin": {
+      "wallet": "bc1qvjtxscd93cams8mlt65s9wse7wgvymxettxdlu",
+      "min": 100
+    },
+    "Ethereum": {
+      "wallet": "0xabc123...",
+      "min": 100
+    },
+    "Litecoin": {
+      "wallet": "ltc123...",
+      "min": 100
+    },
+    "CashApp": {
+      "wallet": "$YourTag",
+      "min": 100
+    }
+  }
+}
