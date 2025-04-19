@@ -24,3 +24,21 @@ def save_user(user_id, data):
 def log_transaction(txid, data):
     with open(os.path.join(TRANSACTION_LOG_DIR, f"{txid}.json"), "w") as f:
         json.dump(data, f, indent=2)
+
+def add_deposit(user_id, amount, txid, service="top_up"):
+    """Centralized deposit handling"""
+    user = load_user(user_id)
+    user.setdefault('balance', 0.0)
+    user['balance'] += amount
+    
+    user.setdefault('transactions', [])
+    user['transactions'].append({
+        'txid': txid,
+        'amount': amount,
+        'service': service,
+        'status': 'approved',
+        'timestamp': datetime.now().isoformat()
+    })
+    
+    save_user(user_id, user)
+    return user

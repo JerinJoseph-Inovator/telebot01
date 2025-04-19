@@ -1,0 +1,10 @@
+{
+  "balance": 600.0,
+  "transactions": [
+    {
+      "txid": "jaidijchsjificjwjckjsjcc",
+      "amount": 600.0,
+      "status": "approved"
+    }
+  ]
+}

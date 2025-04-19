@@ -1,10 +1,13 @@
+# handlers/top_up.py
+import logging  # Add this import at the top
 from telegram import Update, ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import ContextTypes
 from utils.json_manager import load_data
 from utils.keyboards import add_back_button
 from utils.pending import load_pending, save_pending
+from utils.approval import create_approval_keyboard  # Make sure this import exists
 
-ADMIN_ID = 1188902990  # Your Telegram user ID
+ADMIN_ID = 1188902990
 
 async def top_up_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Show deposit methods and available balance option"""
@@ -39,13 +42,11 @@ async def deposit_method_handler(update: Update, context: ContextTypes.DEFAULT_T
 async def available_balance_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle balance checks and transaction submissions"""
     msg = update.message.text.strip()
-    
-    # First check if it's a menu button press
+
     if msg == "Available Balance":
         await show_balance_instructions(update)
         return
         
-    # Then handle TXID submission
     await handle_txid_submission(update, context, msg)
 
 async def show_balance_instructions(update: Update):
@@ -60,29 +61,24 @@ async def show_balance_instructions(update: Update):
 
 async def handle_txid_submission(update: Update, context: ContextTypes.DEFAULT_TYPE, txid: str):
     """Process valid TXID submissions"""
-    pending = load_pending()
-    pending.append({
-        "user_id": update.effective_user.id,
-        "username": update.effective_user.username or "Unknown",
-        "txid": txid
-    })
-    save_pending(pending)
-
-    # User confirmation
-    await update.message.reply_text("✅ Transaction submitted for review. It may take up to 24 hours for approval.")
-
-    # Admin notification
-    keyboard = [
-        [
-            InlineKeyboardButton("✅ Approve", callback_data=f"approve:{txid}"),
-            InlineKeyboardButton("❌ Reject", callback_data=f"reject:{txid}")
-        ]
-    ]
     try:
+        pending = load_pending()
+        pending.append({
+            "user_id": update.effective_user.id,
+            "username": update.effective_user.username or "Unknown",
+            "txid": txid
+        })
+        save_pending(pending)
+
+        await update.message.reply_text("✅ Transaction submitted for review. It may take up to 24 hours for approval.")
+
+        # Create and send keyboard properly
+        keyboard = create_approval_keyboard(txid, update.effective_user.id)
+        
         await context.bot.send_message(
             chat_id=ADMIN_ID,
             text=f"📝 New deposit pending\n\nUser: @{update.effective_user.username}\nTXID: <code>{txid}</code>",
-            reply_markup=InlineKeyboardMarkup(keyboard),
+            reply_markup=keyboard,  # Directly use the created keyboard
             parse_mode="HTML"
         )
     except Exception as e:
