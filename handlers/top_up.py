@@ -6,6 +6,8 @@ from utils.json_manager import load_data
 from utils.keyboards import add_back_button
 from utils.pending import load_pending, save_pending
 from utils.approval import create_approval_keyboard  # Make sure this import exists
+from pathlib import Path
+import json
 
 ADMIN_ID = 1188902990
 
@@ -50,14 +52,44 @@ async def available_balance_handler(update: Update, context: ContextTypes.DEFAUL
     await handle_txid_submission(update, context, msg)
 
 async def show_balance_instructions(update: Update):
-    """Show balance information and TXID instructions"""
-    await update.message.reply_text(
-        'Balance: 💲0.00\n\n'
-        '🗒 Made a Deposit? Enter transaction ID below\n'
-        '<a href="https://youtu.be/yh6Oy-nkPd8?si=dhd_BSiE78-QIBsP">How to get transaction ID</a>',
-        parse_mode="HTML", 
-        disable_web_page_preview=True
-    )
+    """Show the user's current balance and deposit instructions"""
+    user_id = update.effective_user.id
+    project_root = Path(__file__).resolve().parent.parent
+    user_file = project_root / "user" / f"{user_id}.json"
+    
+    try:
+        if user_file.exists():
+            with open(user_file, 'r') as f:
+                user_data = json.load(f)
+                balance = user_data.get('balance', 0.0)
+        else:
+            balance = 0.0
+        
+        # Format balance with 2 decimal places and thousands separator
+        formatted_balance = "${:,.2f}".format(balance)
+        
+        response = (
+            f"💳 *Your Current Balance:* {formatted_balance}\n\n"
+            "📥 *Need to Add Funds?*\n"
+            "1. Make a deposit using one of our payment methods\n"
+            "2. Enter your Transaction ID here\n\n"
+            "🔍 <a href=\"https://youtu.be/yh6Oy-nkPd8?si=dhd_BSiE78-QIBsP\">"
+            "How to find your Transaction ID</a>"
+        )
+        
+        await update.message.reply_text(
+            response,
+            parse_mode="HTML",
+            disable_web_page_preview=True
+        )
+        
+    except Exception as e:
+        logging.error(f"Error showing balance for user {user_id}: {str(e)}")
+        await update.message.reply_text(
+            "⚠️ We couldn't retrieve your balance. Please try again later.\n\n"
+            "You can still submit your Transaction ID for deposit verification.",
+            parse_mode="HTML"
+        )
 
 async def handle_txid_submission(update: Update, context: ContextTypes.DEFAULT_TYPE, txid: str):
     """Process valid TXID submissions"""
