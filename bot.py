@@ -15,7 +15,7 @@ from handlers.streaming_services import streaming_handler, streaming_plan_handle
 from handlers.top_up import top_up_handler, deposit_method_handler, available_balance_handler
 from handlers.referrals import referrals_handler
 from utils.pending import load_pending, save_pending
-from utils.user_manager import load_user, save_user
+from utils.user_manager import load_user, save_user, add_deposit  # Updated import
 from config import BOT_TOKEN
 
 ADMIN_ID = 1188902990
@@ -67,21 +67,22 @@ def main() -> None:
     app.add_handler(MessageHandler(filters.TEXT & filters.Regex(r"^[a-zA-Z0-9\-_=+/]{20,}$"), available_balance_handler))
 
     # ===== Admin Workflows =====
+    app.add_handler(CommandHandler("pending", list_pending))  # Changed to "pending"
     app.add_handler(CallbackQueryHandler(handle_admin_callback))
-    app.add_handler(MessageHandler(filters.TEXT & filters.User(ADMIN_ID), handle_admin_input))
-    # app.add_handler(CommandHandler("pending", list_pending))
-    # Change this in your main bot file
-    app.add_handler(CommandHandler("pendingdeposits", list_pending))
+    app.add_handler(MessageHandler(
+        filters.TEXT & filters.User(ADMIN_ID) & ~filters.COMMAND,
+        handle_admin_input
+    ))
 
     app.run_polling()
 
 async def handle_admin_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Handle approve/reject actions with amount input"""
+    """Handle approve/reject callback queries"""
     query = update.callback_query
     await query.answer()
     
     try:
-        data = query.data.split(":")
+        data = query.data.split(':')
         action = data[0]
         
         if action == "approve" and len(data) == 3:
@@ -96,18 +97,23 @@ async def handle_admin_callback(update: Update, context: ContextTypes.DEFAULT_TY
             txid = data[1]
             pending = [p for p in load_pending() if p["txid"] != txid]
             save_pending(pending)
-            await query.message.reply_text(f"❌ Rejected TXID: {txid}")
-            await context.bot.send_message(
-                pending[0]["user_id"],
-                "❌ Your deposit was rejected. Contact support."
-            )
             
+            # Find the user_id for the rejected transaction
+            rejected_tx = next((p for p in load_pending() if p["txid"] == txid), None)
+            if rejected_tx:
+                await context.bot.send_message(
+                    rejected_tx["user_id"],
+                    "❌ Your deposit was rejected. Please contact support."
+                )
+            
+            await query.message.reply_text(f"❌ Rejected TXID: {txid}")
+
     except Exception as e:
         logging.error(f"Callback error: {e}")
         await query.message.reply_text("❌ Error processing request")
 
 async def handle_admin_input(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Process admin amount input"""
+    """Process admin amount input for approved deposits"""
     admin_id = update.effective_user.id
     if admin_id not in pending_approvals:
         return
@@ -115,70 +121,71 @@ async def handle_admin_input(update: Update, context: ContextTypes.DEFAULT_TYPE)
     try:
         amount = float(update.message.text)
         if amount <= 0:
-            raise ValueError
+            raise ValueError("Amount must be positive")
             
-        approval_data = pending_approvals.pop(admin_id)
-        txid = approval_data["txid"]
-        user_id = approval_data["user_id"]
+        tx_data = pending_approvals.pop(admin_id)
         
-        # Update user balance
-        user = load_user(user_id)
-        user["balance"] = user.get("balance", 0.0) + amount
-        user.setdefault("transactions", []).append({
-            "txid": txid,
-            "amount": amount,
-            "status": "approved"
-        })
-        save_user(user_id, user)
-        
-        # Remove from pending
-        pending = [p for p in load_pending() if p["txid"] != txid]
-        save_pending(pending)
-        
-        # Notify parties
-        await update.message.reply_text(f"✅ Approved ${amount:.2f} for TXID {txid}")
-        await context.bot.send_message(
-            user_id,
-            f"🎉 Your deposit of ${amount:.2f} has been approved!"
+        # Use the centralized add_deposit function
+        add_deposit(
+            user_id=tx_data["user_id"],
+            amount=amount,
+            txid=tx_data["txid"],
+            service="top_up"
         )
         
+        # Remove from pending
+        pending = [p for p in load_pending() if p["txid"] != tx_data["txid"]]
+        save_pending(pending)
+        
+        # Notify both parties
+        await update.message.reply_text(
+            f"✅ Approved ${amount:.2f} deposit for user {tx_data['user_id']}"
+        )
+        await context.bot.send_message(
+            tx_data["user_id"],
+            f"🎉 Your deposit of ${amount:.2f} has been approved and added to your balance!"
+        )
+
     except ValueError:
-        await update.message.reply_text("❌ Invalid amount. Enter positive number.")
-        logging.warning(f"Admin {admin_id} entered invalid amount: {update.message.text}")
+        await update.message.reply_text("❌ Please enter a valid positive number")
+    except Exception as e:
+        logging.error(f"Deposit approval error: {e}")
+        await update.message.reply_text("❌ Failed to process deposit approval")
 
 async def list_pending(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """List pending deposits with action buttons (admin only)"""
+    """List all pending deposits with action buttons"""
     if update.effective_user.id != ADMIN_ID:
+        await update.message.reply_text("❌ You don't have permission to view pending deposits")
         return
 
     pending = load_pending()
     if not pending:
-        await update.message.reply_text("✅ No pending deposits")
+        await update.message.reply_text("✅ No pending deposits at this time")
         return
 
+    # Send summary first
+    await update.message.reply_text(f"📋 Found {len(pending)} pending deposits:")
+    
+    # Send each pending deposit with buttons
     for deposit in pending:
         try:
-            keyboard = InlineKeyboardMarkup([
-                [
-                    InlineKeyboardButton("✅ Approve", callback_data=f"approve:{deposit['txid']}:{deposit['user_id']}"),
-                    InlineKeyboardButton("❌ Reject", callback_data=f"reject:{deposit['txid']}")
-                ]
-            ])
+            keyboard = InlineKeyboardMarkup([[
+                InlineKeyboardButton("✅ Approve", callback_data=f"approve:{deposit['txid']}:{deposit['user_id']}"),
+                InlineKeyboardButton("❌ Reject", callback_data=f"reject:{deposit['txid']}")
+            ]])
             
             await context.bot.send_message(
-                chat_id=ADMIN_ID,
-                text=f"📝 Pending Deposit\n\n"
-                     f"User: @{deposit.get('username', 'Unknown')}\n"
-                     f"TXID: <code>{deposit['txid']}</code>",
+                chat_id=update.effective_chat.id,
+                text=f"🧾 Deposit Request\n\n"
+                     f"👤 User: @{deposit.get('username', 'unknown')}\n"
+                     f"🆔 TXID: <code>{deposit['txid']}</code>\n"
+                     f"🕒 Submitted: {deposit.get('timestamp', 'unknown')}",
                 reply_markup=keyboard,
                 parse_mode="HTML"
             )
-        except KeyError as e:
-            logging.error(f"Malformed pending deposit: {e}")
         except Exception as e:
-            logging.error(f"Error showing pending deposit: {e}")
-
-    await update.message.reply_text(f"ℹ️ Sent {len(pending)} pending deposits to your PM")
+            logging.error(f"Error displaying pending deposit: {e}")
+            await update.message.reply_text(f"⚠️ Error displaying one of the pending deposits")
 
 if __name__ == "__main__":
     main()

@@ -1,10 +1,44 @@
 {
-  "balance": 600.0,
+  "balance": 956.0,
   "transactions": [
     {
       "txid": "jaidijchsjificjwjckjsjcc",
       "amount": 600.0,
       "status": "approved"
+    },
+    {
+      "txid": "Aoufdiyddjyxykdykdykdjtxkyz",
+      "amount": 60.0,
+      "status": "approved"
+    },
+    {
+      "txid": "khdkgxykdykdsykdjyddus",
+      "amount": 56.0,
+      "status": "approved"
+    },
+    {
+      "txid": "ijcjwjkdkkckwkkcnkskqjjdjvkkejfjfjjdkd",
+      "amount": 50.0,
+      "status": "approved"
+    },
+    {
+      "txid": "ijcjwjkdkkckwkkcnkskqjjdjvkkejfjfjjdkd",
+      "amount": 70.0,
+      "status": "approved"
+    },
+    {
+      "txid": "jgsyididigstudtizkts",
+      "amount": 60.0,
+      "service": "top_up",
+      "status": "approved",
+      "timestamp": "2025-04-19T20:22:08.177200"
+    },
+    {
+      "txid": "wiidjncskjdbskjdbdbhsnx",
+      "amount": 60.0,
+      "service": "top_up",
+      "status": "approved",
+      "timestamp": "2025-04-19T21:20:24.590340"
     }
   ]
 }
