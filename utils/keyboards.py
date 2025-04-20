@@ -1,8 +1,10 @@
+# utils/keyboards.py
 def add_back_button(keyboard, back_to="main"):
-    if back_to == "main":
-        keyboard.append(["🔙 Back to Main Menu"])
-    elif back_to == "gift_cards":
-        keyboard.append(["🔙 Back to Gift Cards", "🔙 Back to Main Menu"])
-    else:
-        keyboard.append([f"🔙 Back"])
+    """Add properly formatted back button based on destination"""
+    back_buttons = {
+        "main": ["🔙 Back to Main Menu"],
+        "gift_cards": ["🔙 Back to Gift Cards"],
+        "streaming_services": ["🔙 Back to Streaming Services"]
+    }
+    keyboard.append(back_buttons.get(back_to, ["🔙 Back"]))
     return keyboard

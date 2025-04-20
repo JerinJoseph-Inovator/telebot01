@@ -10,13 +10,16 @@ from telegram.ext import (
 )
 
 from handlers.main_menu import main_menu
-from handlers.gift_cards import gift_cards_handler, gift_card_offer_handler
-from handlers.streaming_services import streaming_handler, streaming_plan_handler
+from handlers.gift_cards import gift_cards_handler, gift_card_offer_handler, handle_gift_card_purchase
+from handlers.streaming_services import streaming_handler, streaming_plan_handler, handle_streaming_purchase
 from handlers.top_up import top_up_handler, deposit_method_handler, available_balance_handler
 from handlers.referrals import referrals_handler
 from utils.pending import load_pending, save_pending
-from utils.user_manager import load_user, save_user, add_deposit  # Updated import
+from utils.user_manager import load_user, save_user, add_deposit # Updated import
 from config import BOT_TOKEN
+# Add this with your other imports
+from handlers.streaming_services import handle_streaming_purchase
+from handlers.coupons.coupons import apply_coupon_handler
 
 ADMIN_ID = 1188902990
 pending_approvals = {}  # Track admin approval states {admin_id: {txid, user_id}}
@@ -45,6 +48,7 @@ def main() -> None:
         "🎬 Streaming Services": streaming_handler,
         "💳 Balance Top Up": top_up_handler,
         "Available Balance": available_balance_handler,
+        "🏷️ Apply Coupon": apply_coupon_handler,
         "👥 Referrals": referrals_handler
     }
     
@@ -55,6 +59,8 @@ def main() -> None:
     back_buttons = {
         "🔙 Back to Main Menu": main_menu,
         "🔙 Back to Gift Cards": gift_cards_handler,
+        "🔙 Back to Streaming Services": streaming_handler,  # Added for streaming
+        "🔙 Back to Coupons": apply_coupon_handler  # Optional, but consistent
     }
     
     for text, handler in back_buttons.items():
@@ -62,9 +68,19 @@ def main() -> None:
 
     # ===== Dynamic Handlers =====
     app.add_handler(MessageHandler(filters.TEXT & filters.Regex(r"^(Amazon|Apple|Steam|Visa)$"), gift_card_offer_handler))
+    app.add_handler(MessageHandler(
+    filters.TEXT & filters.Regex(r"^\$\d+ for \$\d+$"),  # Matches "$50 for $25" format
+    handle_gift_card_purchase
+    ))
     app.add_handler(MessageHandler(filters.TEXT & filters.Regex(r"^(Netflix|Prime|Spotify|Disney\+)$"), streaming_plan_handler))
+    # app.add_handler(MessageHandler(filters.TEXT & filters.Regex(r"^\d+ Month(s)? - \$\d+$"), handle_streaming_purchase))
+    app.add_handler(MessageHandler(
+        filters.TEXT & filters.Regex(r"^(\d+\s(?:Month|Year)s? - \$\d+)|(🔙 Back to Streaming Services)$"),
+        handle_streaming_purchase
+    ))
     app.add_handler(MessageHandler(filters.TEXT & filters.Regex(r"^Deposit "), deposit_method_handler))
     app.add_handler(MessageHandler(filters.TEXT & filters.Regex(r"^[a-zA-Z0-9\-_=+/]{20,}$"), available_balance_handler))
+
 
     # ===== Admin Workflows =====
     app.add_handler(CommandHandler("pending", list_pending))  # Changed to "pending"
@@ -73,6 +89,7 @@ def main() -> None:
         filters.TEXT & filters.User(ADMIN_ID) & ~filters.COMMAND,
         handle_admin_input
     ))
+
 
     app.run_polling()
 

@@ -1,5 +1,5 @@
 {
-  "balance": 956.0,
+  "balance": 606.0,
   "transactions": [
     {
       "txid": "jaidijchsjificjwjckjsjcc",
@@ -39,6 +39,157 @@
       "service": "top_up",
       "status": "approved",
       "timestamp": "2025-04-19T21:20:24.590340"
+    },
+    {
+      "amount": -25.0,
+      "service": "gift_card",
+      "status": "pending",
+      "timestamp": "2025-04-20T07:07:43.398355",
+      "brand": "Amazon",
+      "card_value": 50.0
+    },
+    {
+      "amount": -30.0,
+      "service": "gift_card",
+      "status": "pending",
+      "timestamp": "2025-04-20T07:08:15.205638",
+      "brand": "Apple",
+      "card_value": 50.0
+    },
+    {
+      "amount": -80.0,
+      "service": "gift_card",
+      "status": "pending",
+      "timestamp": "2025-04-20T07:12:00.891906",
+      "brand": "Visa",
+      "card_value": 100.0
+    },
+    {
+      "amount": -25.0,
+      "service": "gift_card",
+      "status": "pending",
+      "timestamp": "2025-04-20T07:14:42.623209",
+      "brand": "Amazon",
+      "card_value": 50.0
+    },
+    {
+      "amount": -50.0,
+      "service": "gift_card",
+      "status": "pending",
+      "timestamp": "2025-04-20T07:14:43.980487",
+      "brand": "Amazon",
+      "card_value": 100.0
+    },
+    {
+      "txid": "ajjdjekjcjdkdkjxkskdkskjxjd",
+      "amount": 100.0,
+      "service": "top_up",
+      "status": "approved",
+      "timestamp": "2025-04-20T07:15:05.287368"
+    },
+    {
+      "amount": -4.0,
+      "service": "streaming",
+      "status": "pending",
+      "timestamp": "2025-04-20T07:15:24.545076",
+      "provider": "Prime",
+      "duration": "1 Month"
+    },
+    {
+      "amount": -12.0,
+      "service": "streaming",
+      "status": "pending",
+      "timestamp": "2025-04-20T07:16:07.166737",
+      "provider": "Netflix",
+      "duration": "3 Months"
+    },
+    {
+      "amount": -5.0,
+      "service": "streaming",
+      "status": "pending",
+      "timestamp": "2025-04-20T07:16:09.430246",
+      "provider": "Netflix",
+      "duration": "1 Month"
+    },
+    {
+      "amount": -4.0,
+      "service": "streaming",
+      "status": "pending",
+      "timestamp": "2025-04-20T07:20:33.513674",
+      "provider": "Prime",
+      "duration": "1 Month"
+    },
+    {
+      "amount": -30.0,
+      "service": "gift_card",
+      "status": "pending",
+      "timestamp": "2025-04-20T07:21:14.329273",
+      "brand": "Apple",
+      "card_value": 50.0
+    },
+    {
+      "amount": -30.0,
+      "service": "streaming",
+      "status": "pending",
+      "timestamp": "2025-04-20T07:21:25.833230",
+      "provider": "Prime",
+      "duration": "1 Year"
+    },
+    {
+      "amount": -5.0,
+      "service": "streaming",
+      "status": "pending",
+      "timestamp": "2025-04-20T07:24:10.884227",
+      "provider": "Netflix",
+      "duration": "1 Month"
+    },
+    {
+      "amount": -5.0,
+      "service": "streaming",
+      "status": "pending",
+      "timestamp": "2025-04-20T07:26:13.049549",
+      "provider": "Netflix",
+      "duration": "1 Month"
+    },
+    {
+      "amount": -5.0,
+      "service": "streaming",
+      "status": "pending",
+      "timestamp": "2025-04-20T07:37:18.085290",
+      "provider": "Netflix",
+      "duration": "1 Month"
+    },
+    {
+      "amount": -30.0,
+      "service": "streaming",
+      "status": "pending",
+      "timestamp": "2025-04-20T07:41:16.336959",
+      "provider": "Prime",
+      "duration": "1 Year"
+    },
+    {
+      "amount": -25.0,
+      "service": "gift_card",
+      "status": "pending",
+      "timestamp": "2025-04-20T07:42:36.431576",
+      "brand": "Amazon",
+      "card_value": 50.0
+    },
+    {
+      "amount": -80.0,
+      "service": "gift_card",
+      "status": "pending",
+      "timestamp": "2025-04-20T15:52:56.738742",
+      "brand": "Visa",
+      "card_value": 100.0
+    },
+    {
+      "amount": -5.0,
+      "service": "streaming",
+      "status": "pending",
+      "timestamp": "2025-04-20T15:53:22.930492",
+      "provider": "Netflix",
+      "duration": "1 Month"
     }
   ]
 }

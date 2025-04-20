@@ -133,3 +133,31 @@ def get_transaction_history(user_id: int, limit: int = 10) -> list:
     """Get user's transaction history"""
     user = load_user(user_id)
     return user.get('transactions', [])[-limit:]
+
+
+# In utils/user_manager.py
+def deduct_balance(user_id: int, amount: float, service: str, **kwargs) -> bool:
+    """Deduct from user's balance for purchases with extended details"""
+    try:
+        user = load_user(user_id)
+        if user.get('balance', 0) < amount:
+            return False
+            
+        user['balance'] -= amount
+        
+        transaction = {
+            'amount': -amount,
+            'service': service,
+            'status': 'pending',
+            'timestamp': datetime.now().isoformat(),
+            **kwargs  # Includes brand, card_value, etc.
+        }
+        
+        user.setdefault('transactions', []).append(transaction)
+        save_user(user_id, user)
+        log_transaction(f"{service}_{datetime.now().timestamp()}", transaction)
+        
+        return True
+    except Exception as e:
+        logging.error(f"Error deducting balance: {e}")
+        return False
