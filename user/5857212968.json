@@ -1,0 +1,28 @@
+{
+  "balance": 20.0,
+  "transactions": [
+    {
+      "txid": "2ed2d2e3",
+      "amount": 100.0,
+      "service": "top_up",
+      "status": "approved",
+      "timestamp": "2025-04-20T18:06:35.381969"
+    },
+    {
+      "amount": -50.0,
+      "service": "gift_card",
+      "status": "pending",
+      "timestamp": "2025-04-20T18:07:10.455773",
+      "brand": "Amazon",
+      "card_value": 100.0
+    },
+    {
+      "amount": -30.0,
+      "service": "streaming",
+      "status": "pending",
+      "timestamp": "2025-04-20T18:08:16.853805",
+      "provider": "Prime",
+      "duration": "1 Year"
+    }
+  ]
+}

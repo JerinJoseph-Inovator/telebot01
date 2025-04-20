@@ -1,5 +1,5 @@
 {
-  "balance": 606.0,
+  "balance": 1491.0,
   "transactions": [
     {
       "txid": "jaidijchsjificjwjckjsjcc",
@@ -190,6 +190,93 @@
       "timestamp": "2025-04-20T15:53:22.930492",
       "provider": "Netflix",
       "duration": "1 Month"
+    },
+    {
+      "txid": "1c1d441b",
+      "amount": 1000.0,
+      "service": "top_up",
+      "status": "approved",
+      "timestamp": "2025-04-20T17:40:58.047712"
+    },
+    {
+      "amount": -50.0,
+      "service": "gift_card",
+      "status": "pending",
+      "timestamp": "2025-04-20T17:41:10.368349",
+      "brand": "Amazon",
+      "card_value": 100.0
+    },
+    {
+      "amount": -5.0,
+      "service": "streaming",
+      "status": "pending",
+      "timestamp": "2025-04-20T17:41:22.058165",
+      "provider": "Netflix",
+      "duration": "1 Month"
+    },
+    {
+      "amount": -5.0,
+      "service": "streaming",
+      "status": "pending",
+      "timestamp": "2025-04-20T17:41:23.969936",
+      "provider": "Netflix",
+      "duration": "1 Month"
+    },
+    {
+      "amount": -5.0,
+      "service": "streaming",
+      "status": "pending",
+      "timestamp": "2025-04-20T17:41:25.106311",
+      "provider": "Netflix",
+      "duration": "1 Month"
+    },
+    {
+      "amount": -5.0,
+      "service": "streaming",
+      "status": "pending",
+      "timestamp": "2025-04-20T17:41:25.782656",
+      "provider": "Netflix",
+      "duration": "1 Month"
+    },
+    {
+      "amount": -5.0,
+      "service": "streaming",
+      "status": "pending",
+      "timestamp": "2025-04-20T17:41:26.323217",
+      "provider": "Netflix",
+      "duration": "1 Month"
+    },
+    {
+      "amount": -5.0,
+      "service": "streaming",
+      "status": "pending",
+      "timestamp": "2025-04-20T17:41:26.879041",
+      "provider": "Netflix",
+      "duration": "1 Month"
+    },
+    {
+      "amount": -5.0,
+      "service": "streaming",
+      "status": "pending",
+      "timestamp": "2025-04-20T17:41:27.420586",
+      "provider": "Netflix",
+      "duration": "1 Month"
+    },
+    {
+      "amount": -5.0,
+      "service": "streaming",
+      "status": "pending",
+      "timestamp": "2025-04-20T17:41:27.963604",
+      "provider": "Netflix",
+      "duration": "1 Month"
+    },
+    {
+      "amount": -25.0,
+      "service": "gift_card",
+      "status": "pending",
+      "timestamp": "2025-04-20T18:06:58.508208",
+      "brand": "Amazon",
+      "card_value": 50.0
     }
   ]
 }
