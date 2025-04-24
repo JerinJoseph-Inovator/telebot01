@@ -1,5 +1,5 @@
 {
-  "balance": 1491.0,
+  "balance": 1210.0,
   "transactions": [
     {
       "txid": "jaidijchsjificjwjckjsjcc",
@@ -277,6 +277,86 @@
       "timestamp": "2025-04-20T18:06:58.508208",
       "brand": "Amazon",
       "card_value": 50.0
+    },
+    {
+      "amount": -25.0,
+      "service": "gift_card",
+      "status": "pending",
+      "timestamp": "2025-04-24T04:20:21.341461",
+      "brand": "Amazon",
+      "card_value": 50.0
+    },
+    {
+      "amount": -25.0,
+      "service": "gift_card",
+      "status": "pending",
+      "timestamp": "2025-04-24T04:20:35.220103",
+      "brand": "Amazon",
+      "card_value": 50.0
+    },
+    {
+      "amount": -12.0,
+      "service": "streaming",
+      "status": "pending",
+      "timestamp": "2025-04-24T04:21:07.202656",
+      "provider": "Netflix",
+      "duration": "3 Months"
+    },
+    {
+      "amount": -5.0,
+      "service": "streaming",
+      "status": "pending",
+      "timestamp": "2025-04-24T04:22:14.442290",
+      "provider": "Netflix",
+      "duration": "1 Month"
+    },
+    {
+      "amount": -25.0,
+      "service": "gift_card",
+      "status": "pending",
+      "timestamp": "2025-04-24T05:04:38.915570",
+      "brand": "Amazon",
+      "card_value": 50.0
+    },
+    {
+      "amount": -50.0,
+      "service": "gift_card",
+      "status": "pending",
+      "timestamp": "2025-04-24T05:13:10.006653",
+      "brand": "Amazon",
+      "card_value": 100.0
+    },
+    {
+      "amount": -25.0,
+      "service": "gift_card",
+      "status": "pending",
+      "timestamp": "2025-04-24T05:28:51.445044",
+      "brand": "Amazon",
+      "card_value": 50.0
+    },
+    {
+      "amount": -12.0,
+      "service": "streaming",
+      "status": "pending",
+      "timestamp": "2025-04-24T05:29:01.572494",
+      "provider": "Netflix",
+      "duration": "3 Months"
+    },
+    {
+      "amount": -90.0,
+      "service": "gift_card",
+      "status": "pending",
+      "timestamp": "2025-04-24T05:42:21.411913",
+      "brand": "Amazon",
+      "card_value": 100.0
+    },
+    {
+      "amount": -12.0,
+      "service": "streaming",
+      "status": "pending",
+      "timestamp": "2025-04-24T05:49:06.819331",
+      "provider": "Netflix",
+      "duration": "3 Months"
     }
   ]
 }

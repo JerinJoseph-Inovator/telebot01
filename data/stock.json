@@ -1,0 +1,20 @@
+{
+  "gift_cards": {
+    "Amazon": {
+      "$50 for $25": true,
+      "$100 for $50": true
+    },
+    "Apple": {
+      "$50 for $30": true
+    }
+  },
+  "streaming_services": {
+    "Netflix": {
+      "1 Month - $5": true,
+      "3 Months - $12": true
+    },
+    "Prime": {
+      "1 Month - $4": false
+    }
+  }
+}
