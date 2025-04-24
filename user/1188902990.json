@@ -1,5 +1,5 @@
 {
-  "balance": 1210.0,
+  "balance": 903.0,
   "transactions": [
     {
       "txid": "jaidijchsjificjwjckjsjcc",
@@ -357,6 +357,92 @@
       "timestamp": "2025-04-24T05:49:06.819331",
       "provider": "Netflix",
       "duration": "3 Months"
+    },
+    {
+      "amount": -25.0,
+      "service": "gift_card",
+      "status": "pending",
+      "timestamp": "2025-04-24T06:14:06.701577",
+      "brand": "Amazon",
+      "card_value": 50.0
+    },
+    {
+      "amount": -5.0,
+      "service": "streaming",
+      "status": "pending",
+      "timestamp": "2025-04-24T06:14:13.540857",
+      "provider": "Netflix",
+      "duration": "1 Month"
+    },
+    {
+      "txid": "973098ad",
+      "amount": 120.0,
+      "service": "top_up",
+      "status": "approved",
+      "timestamp": "2025-04-24T06:14:43.707820"
+    },
+    {
+      "amount": -45.0,
+      "service": "gift_card",
+      "status": "pending",
+      "timestamp": "2025-04-24T06:16:41.955313",
+      "brand": "Amazon",
+      "card_value": 100.0
+    },
+    {
+      "amount": -25.0,
+      "service": "streaming",
+      "status": "pending",
+      "timestamp": "2025-04-24T06:17:50.217378",
+      "provider": "Netflix",
+      "duration": "6 Months"
+    },
+    {
+      "amount": -25.0,
+      "service": "gift_card",
+      "status": "pending",
+      "timestamp": "2025-04-24T06:25:19.216983",
+      "brand": "Olx",
+      "card_value": 55.0
+    },
+    {
+      "amount": -99.0,
+      "service": "gift_card",
+      "status": "pending",
+      "timestamp": "2025-04-24T06:27:27.603505",
+      "brand": "Amazon",
+      "card_value": 999.0
+    },
+    {
+      "amount": -3.0,
+      "service": "streaming",
+      "status": "pending",
+      "timestamp": "2025-04-24T06:27:53.365554",
+      "provider": "Hulu",
+      "duration": "2 Month"
+    },
+    {
+      "amount": -250.0,
+      "service": "gift_card",
+      "status": "pending",
+      "timestamp": "2025-04-24T06:39:29.274346",
+      "brand": "EpicGames",
+      "card_value": 500.0
+    },
+    {
+      "amount": -50.0,
+      "service": "gift_card",
+      "status": "pending",
+      "timestamp": "2025-04-24T06:40:00.317562",
+      "brand": "EpicGames",
+      "card_value": 100.0
+    },
+    {
+      "txid": "92ee817a",
+      "amount": 100.0,
+      "service": "top_up",
+      "status": "approved",
+      "timestamp": "2025-04-24T06:42:46.110216"
     }
   ]
 }

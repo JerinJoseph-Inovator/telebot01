@@ -10,8 +10,8 @@
   },
   "streaming_services": {
     "Netflix": {
-      "1 Month - $5": true,
-      "3 Months - $12": true
+      "1 Month - $5": false,
+      "3 Months - $12": false
     },
     "Prime": {
       "1 Month - $4": false
